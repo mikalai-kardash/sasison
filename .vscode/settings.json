@@ -6,6 +6,5 @@
         "**/.DS_Store": true,
         "**/bin": true,
         "**/obj": true
-
     }
 }
