@@ -27,7 +27,9 @@ namespace sasison.tests
                 throw new ArgumentNullException(nameof(testMethod));
             }
 
-            var specs = new DirectoryInfo("d:/projects/sasison/sass-spec/spec");
+            var baseDir = System.AppContext.BaseDirectory;
+            var current = baseDir.Substring(0, baseDir.IndexOf("sasison") + "sasison".Length);
+            var specs = new DirectoryInfo(current + "\\sass-spec\\spec");
             foreach (var spec in specs.GetDirectories())
             {
                 var testCases = spec.GetDirectories();
