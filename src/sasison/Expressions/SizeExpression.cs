@@ -1,0 +1,21 @@
+﻿using System.Text;
+
+namespace sasison.Expressions
+{
+    public class SizeExpression : IExpression
+    {
+        public float Size { get; }
+        public SizeUnits Unit { get; }
+
+        public SizeExpression(float size, SizeUnits unit)
+        {
+            Size = size;
+            Unit = unit;
+        }
+
+        public void PrintOut(StringBuilder sb)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+}
