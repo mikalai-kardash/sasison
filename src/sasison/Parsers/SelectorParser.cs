@@ -12,7 +12,7 @@ namespace sasison.Parsers
         {
             var selector = Context.Token.ToString();
             Context.Token.Clear();
-            return new SelectorExpression(selector);
+            return new SelectorExpression(selector.Trim());
         }
 
         public override void Parse(char next)

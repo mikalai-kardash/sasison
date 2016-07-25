@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using sasison.Expressions;
 
 namespace sasison
 {
@@ -8,10 +9,11 @@ namespace sasison
         {
             using (var parser = new SassParser())
             {
-                var ast = parser.Parse(input);
-                var sb = new StringBuilder();
+                var syntaxTree = parser.Parse(input);
+                var correctedSyntaxTree = new Tranclucator().Process(syntaxTree);
 
-                ast?.PrintOut(sb);
+                var sb = new StringBuilder();
+                correctedSyntaxTree?.PrintOut(sb);
                 return sb.ToString();
             }
         }

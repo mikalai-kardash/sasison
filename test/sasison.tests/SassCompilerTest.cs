@@ -15,8 +15,8 @@ namespace sasison.tests
 
         [Theory]
         //[SassSpec("basic / 01_simple_css")]
-        [SassSpec("basic / 02_simple_nesting")]
-        //[SassSpec]
+        //[SassSpec("basic / 02_simple_nesting")]
+        [SassSpec]
         public void VerifyTestCase(SassTestCase sassTestCase)
         {
             var actualOutput = string.Empty;
