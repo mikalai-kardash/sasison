@@ -19,5 +19,10 @@ namespace sasison.Expressions
             sb.Append(Grammar.ClosingCurlyBraceChar);
             sb.Append(Grammar.NewLineChar);
         }
+
+        public void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

@@ -28,10 +28,7 @@ namespace sasison.Parsers
                 return;
             }
 
-            if (next == Grammar.NewLineChar || 
-                next == Grammar.TabChar || 
-                next == Grammar.SpaceChar ||
-                next == Grammar.ReturnChar)
+            if (IsSpaceOrTabOrNewLineOrReturn(next))
             {
                 // skip
                 return;

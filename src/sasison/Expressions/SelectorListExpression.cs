@@ -13,5 +13,10 @@ namespace sasison.Expressions
                 expression.PrintOut(sb);
             }
         }
+
+        public void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

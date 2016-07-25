@@ -18,14 +18,20 @@ namespace sasison.Expressions
             sb.Append(Grammar.SpaceChar);
             sb.Append(Grammar.SpaceChar);
 
-            Name.PrintOut(sb);
+            Name?.PrintOut(sb);
 
             sb.Append(Grammar.ColonChar);
             sb.Append(Grammar.SpaceChar);
 
-            Value.PrintOut(sb);
+            Value?.PrintOut(sb);
+            
             sb.Append(Grammar.EndDeclarationChar);
             sb.Append(Grammar.SpaceChar);
+        }
+
+        public void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

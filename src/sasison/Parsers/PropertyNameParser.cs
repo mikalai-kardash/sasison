@@ -22,6 +22,12 @@ namespace sasison.Parsers
                 return;
             }
 
+            if (next == Grammar.OpeningCurlyBraceChar) {
+                Context.SwitchParser(new RuleParser(Context));
+                Context.Proceed(next);
+                return;
+            }
+
             Context.Token.Accumulate(next);
         }
     }

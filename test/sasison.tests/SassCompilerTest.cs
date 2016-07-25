@@ -21,10 +21,10 @@ namespace sasison.tests
         {
             var actualOutput = string.Empty;
             Exception thrown = null;
-
-            var compiler = new SassCompiler();
+            
             try
             {
+                var compiler = new SassCompiler();
                 actualOutput = compiler.Compile(sassTestCase.Input);
             }
             catch (Exception ex)
@@ -42,24 +42,25 @@ namespace sasison.tests
         private void ReportError(SassTestCase sassTestCase, string actualOutput, Exception ex)
         {
             _output.WriteLine("{0} FAILED!", sassTestCase.DisplayName);
-            if (!string.IsNullOrWhiteSpace(sassTestCase.Error))
-            {
-                _output.WriteLine("");
-                _output.WriteLine(sassTestCase.Error);
-            }
-            if (!string.IsNullOrWhiteSpace(sassTestCase.Options))
-            {
-                _output.WriteLine("");
-                _output.WriteLine(sassTestCase.Options);
-            }
-
-            _output.WriteLine("");
-            _output.WriteLine(sassTestCase.Input);
-
-            _output.WriteLine(ex.ToString());
+            
+            WriteSection("-- INPUT:", sassTestCase.Input);
+            WriteSection("-- EXPECTED:", sassTestCase.ExpectedOutput);
+            WriteSection("-- ACTUAL:", actualOutput);
+            WriteSection("-- OPTIONS:", sassTestCase.Options);
+            WriteSection("-- ERROR:", sassTestCase.Error);
+            WriteSection("-- EXCEPTION:", ex?.ToString() ?? "");
 
             Assert.Null(ex);
             Assert.Equal(sassTestCase.ExpectedOutput, actualOutput);
+        }
+
+        private void WriteSection(string section, string value) {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                _output.WriteLine("");
+                _output.WriteLine(section);
+                _output.WriteLine(value);
+            }
         }
     }
 }

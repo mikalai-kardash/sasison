@@ -15,5 +15,10 @@ namespace sasison.Expressions
         {
             sb.Append(Selector);
         }
+
+        public void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

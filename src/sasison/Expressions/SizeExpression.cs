@@ -17,5 +17,10 @@ namespace sasison.Expressions
         {
             throw new System.NotImplementedException();
         }
+
+        public void Accept(IVisitor visitor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

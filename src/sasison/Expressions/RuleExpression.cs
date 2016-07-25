@@ -15,8 +15,13 @@ namespace sasison.Expressions
 
         public void PrintOut(StringBuilder sb)
         {
-            Selectors.PrintOut(sb);
-            Body.PrintOut(sb);
+            Selectors?.PrintOut(sb);
+            Body?.PrintOut(sb);
+        }
+
+        public void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

@@ -25,6 +25,24 @@ namespace sasison
             _currentParser = parser;
         }
 
+        public void SwitchParser(ParserBase parser) {
+//           var s = _scopes.Peek();
+//           while(s.GetType() != typeof(RuleBodyParser) && _scopes.Count > 0) {
+//               s = _scopes.Pop();
+//           }
+//            _scopes.Push(s);
+
+            _scopes.Pop();
+            //_scopes.Pop();
+            _currentParser = parser;
+
+            var pending = GetValueAndClearToken();
+            foreach (char next in pending)
+            {
+                Proceed(next);
+            }
+        }
+
         public void Proceed(char next)
         {
             _currentParser.Parse(next);

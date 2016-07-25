@@ -11,10 +11,9 @@ namespace sasison.Parsers
 
         public override IExpression GetExpression()
         {
-            return new RuleExpression(
-                Expressions.OfType<SelectorListExpression>().FirstOrDefault(),
-                Expressions.OfType<RuleBodyExpression>().FirstOrDefault()
-            );
+            var selectors = Expressions.OfType<SelectorListExpression>().FirstOrDefault();
+            var body = Expressions.OfType<RuleBodyExpression>().FirstOrDefault();
+            return new RuleExpression(selectors, body);
         }
 
         public override void Parse(char next)
