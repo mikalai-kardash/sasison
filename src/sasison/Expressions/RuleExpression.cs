@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace sasison.Expressions
+﻿namespace sasison.Expressions
 {
     public class RuleExpression : IExpression
     {
@@ -14,13 +12,7 @@ namespace sasison.Expressions
 
         public SelectorListExpression Selectors { get; }
         public RuleBodyExpression Body { get; }
-
-        public void PrintOut(StringBuilder sb)
-        {
-            Selectors?.PrintOut(sb);
-            Body?.PrintOut(sb);
-        }
-
+        
         public void Accept(IVisitor visitor)
         {
             visitor.Visit(this);

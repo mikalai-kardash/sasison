@@ -47,7 +47,7 @@ namespace sasison
         {
             var s = Token.ToString();
             Token.Clear();
-            return s.Trim();
+            return s.Trim(Grammar.SpaceChar, Grammar.NewLineChar, Grammar.ReturnChar, Grammar.TabChar);
         }
 
         public IExpression Parse(string input)

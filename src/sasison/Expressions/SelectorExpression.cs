@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace sasison.Expressions
+﻿namespace sasison.Expressions
 {
     public class SelectorExpression : IExpression
     {
@@ -9,11 +7,6 @@ namespace sasison.Expressions
         public SelectorExpression(string selector)
         {
             Selector = selector;
-        }
-
-        public void PrintOut(StringBuilder sb)
-        {
-            sb.Append(Selector);
         }
 
         public void Accept(IVisitor visitor)

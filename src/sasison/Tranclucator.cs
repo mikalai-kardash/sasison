@@ -59,9 +59,17 @@ namespace sasison
                 body.Add(expression);
             }
 
-            if (body.Any(e => e.GetType() == typeof(PropertyExpression)))
+            Func<IExpression, bool> viableContent = e =>
             {
-                var indentation = _scope.Count(e => e.Body.Any(b => b.GetType() == typeof(PropertyExpression)));
+                var t = e.GetType();
+
+                return t == typeof(PropertyExpression) || 
+                       t == typeof(CommentsExpression);
+            };
+
+            if (body.Any(viableContent))
+            {
+                var indentation = _scope.Count(e => e.Body.Any(viableContent));
                 var re = new RuleExpression(selectors, body) {Indentation = indentation};
                 body.Indentation = indentation;
                 _global.Add(re);
@@ -118,6 +126,14 @@ namespace sasison
 
         public void Visit(StringExpression str)
         {
+        }
+
+        public void Visit(CommentsExpression comments)
+        {
+            if (_scope.Count == 0)
+            {
+                _global.Add(comments);
+            }
         }
 
         public IExpression Process(IExpression expression)

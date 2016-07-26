@@ -13,5 +13,6 @@
         void Visit(NameExpression name);
         void Visit(ValueExpression value);
         void Visit(StringExpression str);
+        void Visit(CommentsExpression comments);
     }
 }

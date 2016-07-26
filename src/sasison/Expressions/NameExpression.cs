@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 
 namespace sasison.Expressions
 {
@@ -8,10 +7,6 @@ namespace sasison.Expressions
         public void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
-        }
-
-        public void PrintOut(StringBuilder sb)
-        {
         }
     }
 }

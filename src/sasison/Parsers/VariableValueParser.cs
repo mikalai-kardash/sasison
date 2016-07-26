@@ -20,7 +20,7 @@ namespace sasison.Parsers
                 return;
             }
 
-            if (next == Grammar.EndDeclarationChar)
+            if (next == Grammar.EndDeclarationChar || next == Grammar.SpaceChar)
             {
                 Context.ReturnToParentParser(this);
                 Context.Proceed(next);

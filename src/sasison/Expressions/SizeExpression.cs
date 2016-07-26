@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace sasison.Expressions
+﻿namespace sasison.Expressions
 {
     public class SizeExpression : IExpression
     {
@@ -11,11 +9,6 @@ namespace sasison.Expressions
         {
             Size = size;
             Unit = unit;
-        }
-
-        public void PrintOut(StringBuilder sb)
-        {
-            throw new System.NotImplementedException();
         }
 
         public void Accept(IVisitor visitor)

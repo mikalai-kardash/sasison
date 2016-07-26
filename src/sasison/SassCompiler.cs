@@ -10,11 +10,7 @@
             {
                 var syntaxTree = parser.Parse(input);
                 var tranclucatedSyntaxTree = tranclucator.Process(syntaxTree);
-
-                //var sb = new StringBuilder();
-                //tranclucatedSyntaxTree?.PrintOut(sb);
-                var text = poet.Write(tranclucatedSyntaxTree);
-                return text;
+                return poet.Write(tranclucatedSyntaxTree);
             }
         }
     }

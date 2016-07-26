@@ -28,6 +28,13 @@ namespace sasison.Parsers
                 return;
             }
 
+            if (next == Grammar.ForwardSlashChar)
+            {
+                Context.SetParser(new CommentsParser(Context));
+                Context.Proceed(next);
+                return;
+            }
+
             if (IsSpaceOrTabOrNewLineOrReturn(next))
             {
                 // skip

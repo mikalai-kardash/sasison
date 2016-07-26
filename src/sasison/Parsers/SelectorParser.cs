@@ -10,9 +10,7 @@ namespace sasison.Parsers
 
         public override IExpression GetExpression()
         {
-            var selector = Context.Token.ToString();
-            Context.Token.Clear();
-            return new SelectorExpression(selector.Trim());
+            return new SelectorExpression(Context.GetValueAndClearToken());
         }
 
         public override void Parse(char next)

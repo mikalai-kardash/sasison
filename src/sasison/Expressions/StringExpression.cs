@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace sasison.Expressions
+﻿namespace sasison.Expressions
 {
     public class StringExpression : IExpression
     {
@@ -14,11 +12,6 @@ namespace sasison.Expressions
         public void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
-        }
-
-        public void PrintOut(StringBuilder sb)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

@@ -9,21 +9,15 @@ namespace sasison
         private StringBuilder _poem;
         private bool _isPropertyScope;
         private ScopeMan _sm;
+        private bool _lastRuleWasIndented;
 
         public void Visit(GlobalExpression globalExpression)
         {
             using (_sm.NewScope(globalExpression))
             {
-                var several = false;
                 foreach (var expression in globalExpression)
                 {
-                    //if (several && expression.GetType() != typeof(VariableExpression))
-                    //{
-                    //    _poem.Append(Grammar.NewLineChar);
-                    //}
-
                     expression.Accept(this);
-                    several = several || (expression.GetType() != typeof(VariableExpression));
                 }
             }
         }
@@ -31,6 +25,14 @@ namespace sasison
         public void Visit(PropertyExpression property)
         {
             _isPropertyScope = true;
+
+            _poem.Append(Grammar.NewLineChar);
+
+            var body = _sm.GetCurrent().Expression as RuleBodyExpression;
+            if (body != null)
+            {
+                AddIndentation(body.Indentation);
+            }
 
             _poem.Append(Grammar.SpaceChar);
             _poem.Append(Grammar.SpaceChar);
@@ -60,29 +62,22 @@ namespace sasison
             
             rule.Selectors.Accept(this);
             rule.Body.Accept(this);
+
+            _lastRuleWasIndented = rule.Indentation > 0;
         }
 
         public void Visit(RuleBodyExpression ruleBody)
         {
             _poem.Append(Grammar.OpeningCurlyBraceChar);
-            _poem.Append(Grammar.NewLineChar);
 
             using (_sm.NewScope(ruleBody))
             {
-                var several = false;
                 foreach (var expression in ruleBody)
                 {
-                    if (several)
-                    {
-                        _poem.Append(Grammar.NewLineChar);
-                    }
-
-                    AddIndentation(ruleBody.Indentation);
                     expression.Accept(this);
-                    several = true;
                 }
             }
-
+            
             _poem.Append(Grammar.SpaceChar);
             _poem.Append(Grammar.ClosingCurlyBraceChar);
             _poem.Append(Grammar.NewLineChar);
@@ -129,7 +124,7 @@ namespace sasison
                 GetVariableValue(variable.Value));
         }
 
-        public string GetVariableName(NameExpression name)
+        private string GetVariableName(NameExpression name)
         {
             var sb = new StringBuilder();
             foreach (var expression in name)
@@ -143,7 +138,7 @@ namespace sasison
             return sb.ToString();
         }
 
-        public string GetVariableValue(ValueExpression value)
+        private string GetVariableValue(ValueExpression value)
         {
             var sb = new StringBuilder();
             var several = false;
@@ -207,6 +202,54 @@ namespace sasison
             {
                 _poem.Append(str.Value);
             }
+        }
+
+        public void Visit(CommentsExpression comments)
+        {
+            if (comments.IsSingleLine)
+            {
+                return;
+            }
+
+            if (_sm.GetCurrent().Expression.GetType() == typeof(GlobalExpression))
+            {
+                if (_lastRuleWasIndented)
+                {
+                    _poem.Append(Grammar.NewLineChar);
+                }
+            }
+            else
+            {
+                _poem.Append(Grammar.NewLineChar);
+            }
+
+            var body = _sm.GetCurrent().Expression as RuleBodyExpression;
+            if (body != null)
+            {
+                AddIndentation(body.Indentation + 1);
+            }
+
+            _poem.Append(Grammar.ForwardSlashChar);
+            _poem.Append(Grammar.StarChar);
+
+            _poem.Append(GetCommentsValue(comments));
+
+            _poem.Append(Grammar.StarChar);
+            _poem.Append(Grammar.ForwardSlashChar);
+        }
+
+        private static string GetCommentsValue(CommentsExpression comments)
+        {
+            var c = new StringBuilder();
+            foreach (var comment in comments)
+            {
+                var str = comment as StringExpression;
+                if (str != null)
+                {
+                    c.Append(str.Value);
+                }
+            }
+            return c.ToString();
         }
 
         public string Write(IExpression expression)

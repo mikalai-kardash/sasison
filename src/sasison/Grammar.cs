@@ -12,6 +12,9 @@
         public const char TabChar = '\t';
         public const char SpaceChar = ' ';
         public const char CommaChar = ',';
+        public const char StarChar = '*';
+        public const char ForwardSlashChar = '/';
+
 
         public const char OpeningCurlyBraceChar = '{';
         public const char ClosingCurlyBraceChar = '}';
