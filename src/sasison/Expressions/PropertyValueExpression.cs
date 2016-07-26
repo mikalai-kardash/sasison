@@ -1,10 +1,14 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace sasison.Expressions
 {
+    [Obsolete]
     public class PropertyValueExpression : IExpression
     {
         public string Value { get; }
+
+        public bool IsVariable => Value[0] == Grammar.VarChar;
 
         public PropertyValueExpression(string value)
         {
@@ -18,7 +22,7 @@ namespace sasison.Expressions
 
         public void Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
+
         }
     }
 }

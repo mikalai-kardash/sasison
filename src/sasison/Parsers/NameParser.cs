@@ -2,15 +2,18 @@
 
 namespace sasison.Parsers
 {
-    public class PropertyNameParser : ParserBase
+    public class NameParser : ParserBase
     {
-        public PropertyNameParser(SassParser context) : base(context)
+        public NameParser(SassParser context) : base(context)
         {
         }
 
         public override IExpression GetExpression()
         {
-            return new PropertyNameExpression(Context.GetValueAndClearToken());
+            return new NameExpression
+            {
+                new StringExpression(Context.GetValueAndClearToken())
+            };
         }
 
         public override void Parse(char next)
@@ -22,8 +25,16 @@ namespace sasison.Parsers
                 return;
             }
 
-            if (next == Grammar.OpeningCurlyBraceChar) {
+            if (next == Grammar.OpeningCurlyBraceChar)
+            {
                 Context.SwitchParser(new RuleParser(Context));
+                Context.Proceed(next);
+                return;
+            }
+
+            if (next == Grammar.EndDeclarationChar)
+            {
+                Context.ReturnToParentParser(this);
                 Context.Proceed(next);
                 return;
             }

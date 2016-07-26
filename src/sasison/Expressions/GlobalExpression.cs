@@ -8,9 +8,15 @@ namespace sasison.Expressions
     {
         public void PrintOut(StringBuilder sb)
         {
+            var several = false;
             foreach (var expression in this)
             {
+                if (several)
+                {
+                    sb.Append(Grammar.NewLineChar);
+                }
                 expression.PrintOut(sb);
+                several = true;
             }
         }
 

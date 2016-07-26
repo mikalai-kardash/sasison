@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using sasison.Expressions;
+﻿using sasison.Expressions;
 
 namespace sasison
 {

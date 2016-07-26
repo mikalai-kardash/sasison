@@ -16,6 +16,8 @@ namespace sasison.tests
         [Theory]
         //[SassSpec("basic / 01_simple_css")]
         //[SassSpec("basic / 02_simple_nesting")]
+        //[SassSpec("basic / 03_simple_variable")]
+        //[SassSpec("basic / 04_basic_variables")]
         [SassSpec]
         public void VerifyTestCase(SassTestCase sassTestCase)
         {

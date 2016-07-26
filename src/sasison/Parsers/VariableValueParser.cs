@@ -2,19 +2,24 @@
 
 namespace sasison.Parsers
 {
-    public class PropertyValueParser : ParserBase
+    public class VariableValueParser : ParserBase
     {
-        public PropertyValueParser(SassParser context) : base(context)
+        public VariableValueParser(SassParser context) : base(context)
         {
         }
 
         public override IExpression GetExpression()
         {
-            return new PropertyValueExpression(Context.GetValueAndClearToken());
+            return new VariableValueExpression(Context.GetValueAndClearToken());
         }
 
         public override void Parse(char next)
         {
+            if (next == Grammar.VarChar)
+            {
+                return;
+            }
+
             if (next == Grammar.EndDeclarationChar)
             {
                 Context.ReturnToParentParser(this);

@@ -2,39 +2,39 @@
 
 namespace sasison.Parsers
 {
-    public class RuleBodyParser : ParserBase
+    public class ValueParser : ParserBase
     {
-        public RuleBodyParser(SassParser context) : base(context)
+        public ValueParser(SassParser context) : base(context)
         {
         }
 
         public override IExpression GetExpression()
         {
-            return new RuleBodyExpression().Add(Expressions);
+            return new ValueExpression().Add(Expressions);
         }
 
         public override void Parse(char next)
         {
-            if (next == Grammar.ClosingCurlyBraceChar)
+            if (next == Grammar.EndDeclarationChar)
             {
                 Context.ReturnToParentParser(this);
                 Context.Proceed(next);
                 return;
             }
 
-            if (next == Grammar.VarChar)
-            {
-                Context.SetParser(new VariableParser(Context));
-                return;
-            }
-
             if (IsSpaceOrTabOrNewLineOrReturn(next))
             {
-                // skip
                 return;
             }
 
-            Context.SetParser(new PropertyParser(Context));
+            if (next == Grammar.VarChar)
+            {
+                Context.SetParser(new VariableValueParser(Context));
+                Context.Proceed(next);
+                return;
+            }
+
+            Context.SetParser(new StringParser(Context));
             Context.Proceed(next);
         }
     }

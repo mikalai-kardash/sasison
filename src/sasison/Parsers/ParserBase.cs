@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using sasison.Expressions;
+using System.Linq;
 
 namespace sasison.Parsers
 {
@@ -32,6 +33,11 @@ namespace sasison.Parsers
                    next == Grammar.NewLineChar ||
                    next == Grammar.ReturnChar ||
                    next == Grammar.TabChar;
+        }
+
+        public T GetExpression<T>() where T : IExpression
+        {
+            return Expressions.OfType<T>().FirstOrDefault();
         }
 
         public void Dispose()

@@ -2,16 +2,16 @@
 
 namespace sasison.Expressions
 {
-    public class PropertyDeclarationExpression : IExpression
+    public class PropertyExpression : IExpression
     {
-        public PropertyNameExpression Name { get; }
-        public PropertyValueExpression Value { get; }
-
-        public PropertyDeclarationExpression(PropertyNameExpression name, PropertyValueExpression value)
+        public PropertyExpression(NameExpression name, ValueExpression value)
         {
             Name = name;
             Value = value;
         }
+
+        public NameExpression Name { get; }
+        public ValueExpression Value { get; private set; }
 
         public void PrintOut(StringBuilder sb)
         {
@@ -24,7 +24,7 @@ namespace sasison.Expressions
             sb.Append(Grammar.SpaceChar);
 
             Value?.PrintOut(sb);
-            
+
             sb.Append(Grammar.EndDeclarationChar);
             sb.Append(Grammar.SpaceChar);
         }
@@ -32,6 +32,11 @@ namespace sasison.Expressions
         public void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public void SetValue(string value)
+        {
+            Value = new ValueExpression {new StringExpression(value)};
         }
     }
 }

@@ -3,17 +3,17 @@ using System.Linq;
 
 namespace sasison.Parsers
 {
-    public class PropertyDeclarationParser : ParserBase
+    public class PropertyParser : ParserBase
     {
-        public PropertyDeclarationParser(SassParser context) : base(context)
+        public PropertyParser(SassParser context) : base(context)
         {
         }
 
         public override IExpression GetExpression()
         {
-            return new PropertyDeclarationExpression(
-                Expressions.OfType<PropertyNameExpression>().FirstOrDefault(),
-                Expressions.OfType<PropertyValueExpression>().FirstOrDefault()
+            return new PropertyExpression(
+                Expressions.OfType<NameExpression>().FirstOrDefault(),
+                Expressions.OfType<ValueExpression>().FirstOrDefault()
             );
         }
 
@@ -21,7 +21,7 @@ namespace sasison.Parsers
         {
             if (next == Grammar.ColonChar)
             {
-                Context.SetParser(new PropertyValueParser(Context));
+                Context.SetParser(new ValueParser(Context));
                 return;
             }
 
@@ -37,7 +37,7 @@ namespace sasison.Parsers
                 return;
             }
 
-            Context.SetParser(new PropertyNameParser(Context));
+            Context.SetParser(new NameParser(Context));
             Context.Proceed(next);
         }
     }

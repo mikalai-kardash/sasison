@@ -1,20 +1,20 @@
-﻿using System.Text;
-using sasison.Expressions;
-
-namespace sasison
+﻿namespace sasison
 {
     public class SassCompiler : ISassCompiler
     {
         public string Compile(string input)
         {
             using (var parser = new SassParser())
+            using (var tranclucator = new Tranclucator())
+            using (var poet = new Poet())
             {
                 var syntaxTree = parser.Parse(input);
-                var correctedSyntaxTree = new Tranclucator().Process(syntaxTree);
+                var tranclucatedSyntaxTree = tranclucator.Process(syntaxTree);
 
-                var sb = new StringBuilder();
-                correctedSyntaxTree?.PrintOut(sb);
-                return sb.ToString();
+                //var sb = new StringBuilder();
+                //tranclucatedSyntaxTree?.PrintOut(sb);
+                var text = poet.Write(tranclucatedSyntaxTree);
+                return text;
             }
         }
     }

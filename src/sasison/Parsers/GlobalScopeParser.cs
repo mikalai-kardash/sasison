@@ -17,7 +17,7 @@ namespace sasison.Parsers
         {
             if (next == Grammar.VarChar)
             {
-                Context.SetParser(new VariableDeclarationParser(Context));
+                Context.SetParser(new VariableParser(Context));
                 Context.Proceed(next);
                 return;
             }
@@ -28,10 +28,7 @@ namespace sasison.Parsers
                 return;
             }
 
-            if (next == Grammar.NewLineChar 
-                || next == Grammar.ReturnChar 
-                || next == Grammar.SpaceChar 
-                || next == Grammar.TabChar)
+            if (IsSpaceOrTabOrNewLineOrReturn(next))
             {
                 // skip
                 return;

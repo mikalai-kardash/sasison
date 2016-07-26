@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace sasison.Expressions
 {
+    [Obsolete]
     public class PropertyNameExpression : IExpression
     {
         public string Value { get; }
@@ -18,7 +20,6 @@ namespace sasison.Expressions
 
         public void Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
         }
     }
 }

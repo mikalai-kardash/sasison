@@ -11,9 +11,15 @@ namespace sasison.Expressions
             sb.Append(Grammar.OpeningCurlyBraceChar);
             sb.Append(Grammar.NewLineChar);
 
+            var several = false;
             foreach (var expression in this)
             {
+                if (several)
+                {
+                    sb.Append(Grammar.NewLineChar);
+                }
                 expression.PrintOut(sb);
+                several = true;
             }
 
             sb.Append(Grammar.ClosingCurlyBraceChar);
