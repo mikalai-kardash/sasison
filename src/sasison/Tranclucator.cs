@@ -23,15 +23,6 @@ namespace sasison
         {
             property.Name.Accept(this);
             property.Value.Accept(this);
-
-            //if (property.Value != null && property.Value.IsVariable)
-            //{
-            //    string v;
-            //    if (_globalVariables.TryGetValue(property.Value.Value.Substring(1), out v))
-            //    {
-            //        property.SetValue(v);
-            //    }
-            //}
         }
 
         public void Visit(RuleExpression rule)
@@ -70,7 +61,10 @@ namespace sasison
 
             if (body.Any(e => e.GetType() == typeof(PropertyExpression)))
             {
-                _global.Add(new RuleExpression(selectors, body));
+                var indentation = _scope.Count(e => e.Body.Any(b => b.GetType() == typeof(PropertyExpression)));
+                var re = new RuleExpression(selectors, body) {Indentation = indentation};
+                body.Indentation = indentation;
+                _global.Add(re);
             }
         }
 
@@ -104,19 +98,6 @@ namespace sasison
             variable.Value.Accept(this);
 
             _global.Add(variable);
-
-            //if (variable.Name != null && variable.Value != null)
-            //{
-            //    string oldValue;
-            //    if (_globalVariables.TryGetValue(variable.Name.Name, out oldValue))
-            //    {
-            //        _globalVariables[variable.Name.Name] = variable.Value.Value;
-            //    }
-            //    else
-            //    {
-            //        _globalVariables.Add(variable.Name.Name, variable.Value.Value);
-            //    }
-            //}
         }
 
         public void Visit(NameExpression name)

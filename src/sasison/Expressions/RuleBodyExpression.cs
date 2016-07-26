@@ -6,6 +6,8 @@ namespace sasison.Expressions
 {
     public class RuleBodyExpression : List<IExpression>, IExpression
     {
+        public int Indentation { get; set; }
+
         public void PrintOut(StringBuilder sb)
         {
             sb.Append(Grammar.OpeningCurlyBraceChar);

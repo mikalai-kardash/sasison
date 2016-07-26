@@ -10,6 +10,8 @@ namespace sasison.Expressions
             Body = body;
         }
 
+        public int Indentation { get; set; }
+
         public SelectorListExpression Selectors { get; }
         public RuleBodyExpression Body { get; }
 

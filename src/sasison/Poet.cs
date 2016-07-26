@@ -17,10 +17,10 @@ namespace sasison
                 var several = false;
                 foreach (var expression in globalExpression)
                 {
-                    if (several && expression.GetType() != typeof(VariableExpression))
-                    {
-                        _poem.Append(Grammar.NewLineChar);
-                    }
+                    //if (several && expression.GetType() != typeof(VariableExpression))
+                    //{
+                    //    _poem.Append(Grammar.NewLineChar);
+                    //}
 
                     expression.Accept(this);
                     several = several || (expression.GetType() != typeof(VariableExpression));
@@ -49,10 +49,16 @@ namespace sasison
 
         public void Visit(RuleExpression rule)
         {
+            if (rule.Indentation == 0)
+            {
+                _poem.Append(Grammar.NewLineChar);
+            }
+            else
+            {
+                AddIndentation(rule.Indentation);
+            }
+            
             rule.Selectors.Accept(this);
-
-            _poem.Append(Grammar.SpaceChar);
-
             rule.Body.Accept(this);
         }
 
@@ -71,6 +77,7 @@ namespace sasison
                         _poem.Append(Grammar.NewLineChar);
                     }
 
+                    AddIndentation(ruleBody.Indentation);
                     expression.Accept(this);
                     several = true;
                 }
@@ -95,6 +102,8 @@ namespace sasison
                 selector.Accept(this);
                 several = true;
             }
+
+            _poem.Append(Grammar.SpaceChar);
         }
 
         public void Visit(SelectorExpression ruleSelector)
@@ -206,13 +215,23 @@ namespace sasison
             _sm = new ScopeMan();
 
             expression.Accept(this);
-            return _poem.ToString();
+            var text = _poem.ToString();
+
+            return text.TrimStart(Grammar.NewLineChar);
         }
 
         public void Dispose()
         {
             _sm?.Dispose();
             _poem?.Clear();
+        }
+
+        private void AddIndentation(int i)
+        {
+            for (var j = 0; j < i * 2; j++)
+            {
+                _poem.Append(Grammar.SpaceChar);
+            }
         }
     }
 }
