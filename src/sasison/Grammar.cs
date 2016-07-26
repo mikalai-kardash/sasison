@@ -14,11 +14,15 @@
         public const char CommaChar = ',';
         public const char StarChar = '*';
         public const char ForwardSlashChar = '/';
-
+        public const char EqChar = '=';
+        public const char BackReferenceChar = '&';
 
         public const char OpeningCurlyBraceChar = '{';
         public const char ClosingCurlyBraceChar = '}';
-        
+
+        public const char CssDirectChildChar = '>';
+        public const char CssSiblingChar = '~';
+        public const char CssAdjacentSiblingChar = '+';
 
         public static string Color = $"{HashChar}([0-9]{3}|[0-9]{6})";
         public static string Variable = $"{VarChar}\\w+";

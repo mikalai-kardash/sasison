@@ -92,7 +92,7 @@ namespace sasison
             }
         }
 
-        public void Visit(SelectorExpression ruleSelector)
+        public void Visit(SelectorExpression selector)
         {
         }
 
@@ -134,6 +134,11 @@ namespace sasison
             {
                 _global.Add(comments);
             }
+        }
+
+        public void Visit(BackReferenceExpression backReference)
+        {
+            throw new NotImplementedException();
         }
 
         public IExpression Process(IExpression expression)

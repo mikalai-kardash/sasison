@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using sasison.Expressions;
+using System.Linq;
 
 namespace sasison
 {
@@ -20,15 +21,38 @@ namespace sasison
             }
 
             var newSelectors = new List<SelectorExpression>();
-            var space = Grammar.SpaceChar.ToString();
-
             foreach (var parent in parentSelectors)
             {
                 foreach (var selector in _selectors)
                 {
-                    newSelectors.Add(new SelectorExpression(
-                        string.Join(space, parent.Selector, selector.Selector)
-                    ));
+                    var ns = new SelectorExpression();
+
+                    var addedBackReference = false;
+                    foreach (var expression in selector)
+                    {
+                        var br = expression as BackReferenceExpression;
+                        if (br != null && br.ParentExpression == null)
+                        {
+                            addedBackReference = true;
+                            ns.Add(new BackReferenceExpression(br.Rest)
+                            {
+                                ParentExpression = new SelectorExpression().Add(parent.ToList())
+                            });
+                            continue;
+                        }
+
+                        ns.Add(expression);
+                    }
+
+                    if (!addedBackReference)
+                    {
+                        ns.Insert(0, new BackReferenceExpression(string.Empty)
+                        {
+                            ParentExpression = new SelectorExpression().Add(parent.ToList())
+                        });
+                    }
+
+                    newSelectors.Add(ns);
                 }
             }
 

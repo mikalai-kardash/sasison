@@ -8,6 +8,10 @@ namespace sasison
     {
         private StringBuilder _poem;
         private bool _isPropertyScope;
+
+        private bool _isSelectorScope;
+        private bool _isNotFirstExpressionInSelector;
+        private bool _isInsideAttribute;
         private ScopeMan _sm;
         private bool _lastRuleWasIndented;
 
@@ -101,9 +105,18 @@ namespace sasison
             _poem.Append(Grammar.SpaceChar);
         }
 
-        public void Visit(SelectorExpression ruleSelector)
+        public void Visit(SelectorExpression selector)
         {
-            _poem.Append(ruleSelector.Selector);
+            _isSelectorScope = true;
+            _isNotFirstExpressionInSelector = false;
+
+            foreach (var expression in selector)
+            {
+                expression.Accept(this);
+                _isNotFirstExpressionInSelector = true;
+            }
+
+            _isSelectorScope = false;
         }
 
         public void Visit(VariableValueExpression variableValue)
@@ -202,6 +215,43 @@ namespace sasison
             {
                 _poem.Append(str.Value);
             }
+
+            if (_isSelectorScope)
+            {
+                if (string.IsNullOrWhiteSpace(str.Value))
+                {
+                    return;
+                }
+
+                if (IsCssSpecialChar(str.Value[0]) || _isNotFirstExpressionInSelector)
+                {
+                    if (!_isInsideAttribute)
+                    {
+                        _poem.Append(Grammar.SpaceChar);
+                    }
+                }
+
+                _isInsideAttribute = _isInsideAttribute || str.Value.IndexOf('[') > -1;
+
+                if (str.Value.IndexOf(']') > -1)
+                {
+                    _isInsideAttribute = false;
+                }
+
+                _poem.Append(str.Value);
+
+                //if (IsCssSpecialChar(str.Value[str.Value.Length - 1]))
+                //{
+                //    _poem.Append(Grammar.SpaceChar);
+                //}
+            }
+        }
+
+        private bool IsCssSpecialChar(char c)
+        {
+            return c == Grammar.CssAdjacentSiblingChar || 
+                c == Grammar.CssDirectChildChar || 
+                c == Grammar.CssSiblingChar;
         }
 
         public void Visit(CommentsExpression comments)
@@ -236,6 +286,16 @@ namespace sasison
 
             _poem.Append(Grammar.StarChar);
             _poem.Append(Grammar.ForwardSlashChar);
+        }
+
+        public void Visit(BackReferenceExpression backReference)
+        {
+            foreach (var expression in backReference.ParentExpression)
+            {
+                expression.Accept(this);
+                _isNotFirstExpressionInSelector = true;
+            }
+            _poem.Append(backReference.Rest);
         }
 
         private static string GetCommentsValue(CommentsExpression comments)

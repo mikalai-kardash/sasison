@@ -20,7 +20,14 @@ namespace sasison.tests
         //[SassSpec("basic / 04_basic_variables")]
         //[SassSpec("basic / 05_empty_levels")]
         //[SassSpec("basic / 06_nesting_and_comments")]
-        [SassSpec]
+        //[SassSpec("basic / 07_nested_simple_selector_groups")]
+        //[SassSpec("basic / 08_selector_combinators")]
+        //[SassSpec("basic / 09_selector_groups_and_combinators")]
+        //[SassSpec("basic / 10_classes_and_ids")]
+        //[SassSpec("basic / 11_attribute_selectors")]
+        //[SassSpec("basic / 13_back_references")]
+        [SassSpec("basic / 14_imports")]
+        //[SassSpec]
         public void VerifyTestCase(SassTestCase sassTestCase)
         {
             var actualOutput = string.Empty;

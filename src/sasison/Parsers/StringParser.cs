@@ -15,7 +15,10 @@ namespace sasison.Parsers
 
         public override void Parse(char next)
         {
-            if (IsSpaceOrTabOrNewLineOrReturn(next) || next == Grammar.EndDeclarationChar)
+            if (IsSpaceOrTabOrNewLineOrReturn(next) || 
+                next == Grammar.EndDeclarationChar || 
+                next == Grammar.CommaChar ||
+                next == Grammar.OpeningCurlyBraceChar)
             {
                 Context.ReturnToParentParser(this);
                 Context.Proceed(next);

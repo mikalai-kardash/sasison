@@ -1,14 +1,9 @@
-﻿namespace sasison.Expressions
+﻿using System.Collections.Generic;
+
+namespace sasison.Expressions
 {
-    public class SelectorExpression : IExpression
+    public class SelectorExpression : List<IExpression>, IExpression
     {
-        public string Selector { get; }
-
-        public SelectorExpression(string selector)
-        {
-            Selector = selector;
-        }
-
         public void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
