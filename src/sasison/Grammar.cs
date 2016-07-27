@@ -16,6 +16,7 @@
         public const char ForwardSlashChar = '/';
         public const char EqChar = '=';
         public const char BackReferenceChar = '&';
+        public const char DoubelQuoteChar = '"';
 
         public const char OpeningCurlyBraceChar = '{';
         public const char ClosingCurlyBraceChar = '}';

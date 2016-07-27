@@ -2,9 +2,9 @@
 
 namespace sasison.Parsers
 {
-    public class GlobalScopeParser : ParserBase
+    public class GlobalParser : ParserBase
     {
-        public GlobalScopeParser(SassParser context) : base(context)
+        public GlobalParser(SassParser context) : base(context)
         {
         }
 
@@ -24,7 +24,8 @@ namespace sasison.Parsers
 
             if (next == Grammar.AtChar)
             {
-                // import, media query, etc.
+                Context.SetParser(new AtParser(Context));
+                Context.Proceed(next);
                 return;
             }
 

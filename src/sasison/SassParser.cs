@@ -54,7 +54,7 @@ namespace sasison
         {
             try
             {
-                SetParser(new GlobalScopeParser(this));
+                SetParser(new GlobalParser(this));
                 foreach (var next in input)
                 {
                     Proceed(next);

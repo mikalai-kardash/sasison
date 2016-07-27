@@ -22,6 +22,13 @@ namespace sasison.Parsers
                 return;
             }
 
+            if (next == Grammar.AtChar)
+            {
+                Context.SetParser(new AtParser(Context));
+                Context.Proceed(next);
+                return;
+            }
+
             if (next == Grammar.VarChar)
             {
                 Context.SetParser(new VariableParser(Context));

@@ -15,5 +15,7 @@
         void Visit(StringExpression str);
         void Visit(CommentsExpression comments);
         void Visit(BackReferenceExpression backReference);
+        void Visit(AtExpression at);
+        void Visit(ImportExpression import);
     }
 }
