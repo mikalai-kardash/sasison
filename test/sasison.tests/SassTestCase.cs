@@ -1,4 +1,6 @@
-﻿namespace sasison.tests
+﻿using System.IO;
+
+namespace sasison.tests
 {
     public class SassTestCase
     {
@@ -7,5 +9,6 @@
         public string Error { get; set; }
         public string Options { get; set; }
         public string DisplayName { get; set; }
+        public DirectoryInfo BaseFolder { get; set; }
     }
 }

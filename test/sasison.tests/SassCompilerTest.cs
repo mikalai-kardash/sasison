@@ -35,7 +35,8 @@ namespace sasison.tests
             
             try
             {
-                var compiler = new SassCompiler();
+                var loader = new TestCaseFileLoader(sassTestCase.BaseFolder);
+                var compiler = new SassCompiler(loader);
                 actualOutput = compiler.Compile(sassTestCase.Input);
             }
             catch (Exception ex)
@@ -66,12 +67,11 @@ namespace sasison.tests
         }
 
         private void WriteSection(string section, string value) {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                _output.WriteLine("");
-                _output.WriteLine(section);
-                _output.WriteLine(value);
-            }
+            if (string.IsNullOrWhiteSpace(value)) return;
+
+            _output.WriteLine("");
+            _output.WriteLine(section);
+            _output.WriteLine(value);
         }
     }
 }

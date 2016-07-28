@@ -7,11 +7,13 @@ namespace sasison
 {
     public class SassParser : ISassParser, IDisposable
     {
+        private readonly IFileLoader _fileLoader;
         private readonly Stack<ParserBase> _scopes;
         private ParserBase _currentParser;
 
-        public SassParser()
+        public SassParser(IFileLoader fileLoader)
         {
+            _fileLoader = fileLoader;
             Token = new Token();
             _scopes = new Stack<ParserBase>();
         }
@@ -70,8 +72,25 @@ namespace sasison
 
         public void ReturnToParentParser(ParserBase child)
         {
+            var expression = child.GetExpression();
+
             _currentParser = _scopes.Pop();
-            _currentParser.AddChildExpression(child.GetExpression());
+            _currentParser.AddChildExpression(expression);
+
+            var import = expression as ImportExpression;
+            if (import != null)
+            {
+                LoadFile(import.FileName);
+            }
+        }
+
+        private void LoadFile(string fileName)
+        {
+            var contents = _fileLoader.LoadFile(fileName);
+            //foreach (var next in contents)
+            //{
+            //    Proceed(next);
+            //}
         }
 
         public void Dispose()

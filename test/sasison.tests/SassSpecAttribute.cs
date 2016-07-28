@@ -27,7 +27,7 @@ namespace sasison.tests
                 throw new ArgumentNullException(nameof(testMethod));
             }
 
-            var baseDir = System.AppContext.BaseDirectory;
+            var baseDir = AppContext.BaseDirectory;
             var current = baseDir.Substring(0, baseDir.IndexOf("sasison") + "sasison".Length);
             var specs = new DirectoryInfo(current + "\\sass-spec\\spec");
             foreach (var spec in specs.GetDirectories())
@@ -38,7 +38,8 @@ namespace sasison.tests
                     var files = testCase.GetFiles();
                     var sassTestCase = new SassTestCase
                     {
-                        DisplayName = $"{spec.Name} / {testCase.Name}"
+                        DisplayName = $"{spec.Name} / {testCase.Name}",
+                        BaseFolder = testCase
                     };
 
                     if (!string.IsNullOrWhiteSpace(UniqueId))

@@ -2,9 +2,16 @@
 {
     public class SassCompiler : ISassCompiler
     {
+        private readonly IFileLoader _fileLoader;
+
+        public SassCompiler(IFileLoader fileLoader)
+        {
+            _fileLoader = fileLoader;
+        }
+
         public string Compile(string input)
         {
-            using (var parser = new SassParser())
+            using (var parser = new SassParser(_fileLoader))
             using (var tranclucator = new Tranclucator())
             using (var poet = new Poet())
             {
