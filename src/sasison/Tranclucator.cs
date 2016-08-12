@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using sasison.Expressions;
+using sasison.Expressions.Arithmethics;
 
 namespace sasison
 {
@@ -154,6 +155,10 @@ namespace sasison
             
         }
 
+        public void Visit(ArithmethicExpression arithmethicExpression)
+        {
+        }
+
         public IExpression Process(IExpression expression)
         {
             _scope = new Stack<RuleExpression>();
@@ -167,8 +172,8 @@ namespace sasison
 
         public void Dispose()
         {
-            _scope.Clear();
-            _globalVariables.Clear();
+            _scope?.Clear();
+            _globalVariables?.Clear();
 
             _global = null;
             _scope = null;

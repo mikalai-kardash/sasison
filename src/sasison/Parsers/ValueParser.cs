@@ -1,4 +1,5 @@
 ﻿using sasison.Expressions;
+using sasison.Parsers.Arithmethics;
 
 namespace sasison.Parsers
 {
@@ -22,7 +23,8 @@ namespace sasison.Parsers
                 return;
             }
 
-            if (IsSpaceOrTabOrNewLineOrReturn(next))
+            if (IsSpaceOrTabOrNewLineOrReturn(next) || 
+                next == Grammar.CommaChar)
             {
                 return;
             }
@@ -30,6 +32,13 @@ namespace sasison.Parsers
             if (next == Grammar.VarChar)
             {
                 Context.SetParser(new VariableValueParser(Context));
+                Context.Proceed(next);
+                return;
+            }
+
+            if (IsArithmethicOperation(next))
+            {
+                Context.SetParser(new ArithmethicParser(Context));
                 Context.Proceed(next);
                 return;
             }

@@ -1,4 +1,7 @@
-﻿namespace sasison.Expressions
+﻿using sasison.Expressions;
+using sasison.Expressions.Arithmethics;
+
+namespace sasison
 {
     public interface IVisitor
     {
@@ -17,5 +20,6 @@
         void Visit(BackReferenceExpression backReference);
         void Visit(AtExpression at);
         void Visit(ImportExpression import);
+        void Visit(ArithmethicExpression arithmethicExpression);
     }
 }

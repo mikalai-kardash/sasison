@@ -1,4 +1,4 @@
-﻿namespace sasison.Expressions
+﻿namespace sasison
 {
     public interface IVisitable
     {

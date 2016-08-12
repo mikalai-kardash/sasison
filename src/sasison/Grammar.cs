@@ -18,6 +18,14 @@
         public const char BackReferenceChar = '&';
         public const char DoubelQuoteChar = '"';
 
+        public const char PlusChar = '+';
+        public const char MinusChar = '-';
+        public const char MultiplyChar = '*';
+        public const char DivideChar = '/';
+
+        public const char OpeningBraceChar = '(';
+        public const char ClosingBraceChar = ')';
+
         public const char OpeningCurlyBraceChar = '{';
         public const char ClosingCurlyBraceChar = '}';
 

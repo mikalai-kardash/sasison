@@ -5,6 +5,8 @@ namespace sasison.Parsers
 {
     public class AtParser : ParserBase
     {
+        private const string ImportStatement = "import";
+
         public AtParser(SassParser context) : base(context)
         {
         }
@@ -27,7 +29,7 @@ namespace sasison.Parsers
                 return;
             }
 
-            if ("import".Equals(Context.Token.ToString(), StringComparison.OrdinalIgnoreCase))
+            if (ImportStatement.Equals(Context.Token.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 Context.Token.Clear();
                 Context.SetParser(new ImportParser(Context));

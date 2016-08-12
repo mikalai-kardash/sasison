@@ -35,6 +35,16 @@ namespace sasison.Parsers
                    next == Grammar.TabChar;
         }
 
+        public bool IsArithmethicOperation(char next)
+        {
+            return next == Grammar.PlusChar ||
+                   next == Grammar.MinusChar ||
+                   next == Grammar.MultiplyChar ||
+                   next == Grammar.DivideChar ||
+                   next == Grammar.OpeningBraceChar ||
+                   next == Grammar.ClosingBraceChar;
+        }
+
         public T GetExpression<T>() where T : IExpression
         {
             return Expressions.OfType<T>().FirstOrDefault();

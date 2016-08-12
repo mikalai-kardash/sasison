@@ -18,7 +18,8 @@ namespace sasison.Parsers
             if (IsSpaceOrTabOrNewLineOrReturn(next) || 
                 next == Grammar.EndDeclarationChar || 
                 next == Grammar.CommaChar ||
-                next == Grammar.OpeningCurlyBraceChar)
+                next == Grammar.OpeningCurlyBraceChar ||
+                IsArithmethicOperation(next))
             {
                 Context.ReturnToParentParser(this);
                 Context.Proceed(next);

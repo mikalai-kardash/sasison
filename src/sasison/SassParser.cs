@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using sasison.Expressions;
 using sasison.Parsers;
 
@@ -10,6 +11,7 @@ namespace sasison
         private readonly IFileLoader _fileLoader;
         private readonly Stack<ParserBase> _scopes;
         private ParserBase _currentParser;
+        private SymbolEnumerable _input;
 
         public SassParser(IFileLoader fileLoader)
         {
@@ -57,9 +59,11 @@ namespace sasison
             try
             {
                 SetParser(new GlobalParser(this));
-                foreach (var next in input)
+                _input = new SymbolEnumerable(input);
+                foreach (var next in _input)
                 {
                     Proceed(next);
+                    Debug.Write(next);
                 }
             }
             catch (Exception ex)
@@ -77,7 +81,8 @@ namespace sasison
             _currentParser = _scopes.Pop();
             _currentParser.AddChildExpression(expression);
 
-            var import = expression as ImportExpression;
+            var at = expression as AtExpression;
+            var import = at?.Count > 0 ? at[0] as ImportExpression : null;
             if (import != null)
             {
                 LoadFile(import.FileName);
@@ -87,10 +92,7 @@ namespace sasison
         private void LoadFile(string fileName)
         {
             var contents = _fileLoader.LoadFile(fileName);
-            //foreach (var next in contents)
-            //{
-            //    Proceed(next);
-            //}
+            _input.AddForProcessing(contents);
         }
 
         public void Dispose()

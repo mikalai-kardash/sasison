@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using sasison.Expressions;
+using sasison.Expressions.Arithmethics;
 
 namespace sasison
 {
@@ -239,11 +240,6 @@ namespace sasison
                 }
 
                 _poem.Append(str.Value);
-
-                //if (IsCssSpecialChar(str.Value[str.Value.Length - 1]))
-                //{
-                //    _poem.Append(Grammar.SpaceChar);
-                //}
             }
         }
 
@@ -307,6 +303,10 @@ namespace sasison
         }
 
         public void Visit(ImportExpression import)
+        {
+        }
+
+        public void Visit(ArithmethicExpression arithmethicExpression)
         {
         }
 
